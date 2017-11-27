@@ -1,0 +1,23 @@
+//
+//  GpioInput.cpp
+//  test
+//
+//  Created by johann Vandromme on 27/11/2017.
+//  Copyright © 2017 Ineat-conseil. All rights reserved.
+//
+
+#include "GpioInput.hpp"
+
+
+GpioInput::GpioInput(int identifier, GpioInputMode mode):Gpio(identifier){
+    pinMode(identifier, INPUT);
+    pullUpDnControl(identifier, mode);
+}
+
+GpioValue GpioInput::digitalRead(){
+    return static_cast<GpioValue>(::digitalRead(_id));
+}
+
+GpioInput::~GpioInput(){
+    
+}
