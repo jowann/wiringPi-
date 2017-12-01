@@ -10,6 +10,10 @@
 
 #include <stdlib.h>     /* exit, EXIT_FAILURE */
 #include <wiringPi.h>
+#include <wiringPiSPI.h>
+#include <unistd.h>
+
+
 
 Gpio40Pins *Gpio40Pins::_instance;
 
@@ -19,8 +23,11 @@ Gpio40Pins::Gpio40Pins(){
         printf("Setup wiringPi Failed!");
         exit(-1);
     }
-    for (int i = 0; i<Gpio40Number; i++){
+    for (int i = 0; i < GPIO_PORT_COUNT; ++i){
         allGPIOs[i] = 0;
+    }
+    for (int i = 0; i < SPI_CHANNEL_COUNT; ++i){
+        _spiFileDescriptor[i] = 0;
     }
     
 }
@@ -50,9 +57,24 @@ PwmGpioOutput &Gpio40Pins::pwmGpio18Output(float max){
     
 }
 
+SpiChannel &Gpio40Pins::spiChannel(SpiChannelId channelId){
+    if (_spiFileDescriptor[channelId] == 0){
+        _spiFileDescriptor[channelId] = wiringPiSPISetup (channelId, 10000);
+        if (_spiFileDescriptor[channelId] < 0){
+            printf ("Can't open the SPI bus\n") ;
+            exit (EXIT_FAILURE) ;
+        }
+    }
+    
+    return *(new SpiChannel(channelId));
+}
+
 Gpio40Pins::~Gpio40Pins(){
-    for (int i = 0; i< Gpio40Number; ++i){
+    for (int i = 0; i< GPIO_PORT_COUNT; ++i){
         delete allGPIOs[i];
+    }
+    for (int i = 0; i < SPI_CHANNEL_COUNT; ++i){
+        close(_spiFileDescriptor[i]);
     }
 }
 

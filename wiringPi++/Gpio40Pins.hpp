@@ -12,27 +12,29 @@
 #include "Gpio.hpp"
 #include "GpioOutput.hpp"
 #include "GpioInput.hpp"
-
 #include "PwmGpioOutput.hpp"
+#include "SpiChannel.hpp"
 
-#define Gpio40Number 30
-
+#define GPIO_PORT_COUNT 30
+#define SPI_CHANNEL_COUNT 2
 
 class Gpio40Pins{
     
 private:
     static Gpio40Pins *_instance;
-    Gpio *allGPIOs[Gpio40Number];
+    Gpio *allGPIOs[GPIO_PORT_COUNT];
     
     Gpio40Pins();
     
     Gpio40Pins& operator= (const Gpio40Pins&){}
+    int _spiFileDescriptor[SPI_CHANNEL_COUNT];
 public:
     static Gpio40Pins &Instance();
     static void deleteInstance();
     GpioOutput &gpioOutput(BCM bcmNumber);
     GpioInput &gpioInput(BCM bcmNumber, GpioInputMode mode);
     PwmGpioOutput &pwmGpio18Output(float max = 1023);
+    SpiChannel &spiChannel(SpiChannelId channelId);
     ~Gpio40Pins();
     
     
