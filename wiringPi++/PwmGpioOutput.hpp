@@ -13,15 +13,15 @@
 
 class PwmGpioOutput:public Gpio{
 public:
-    PwmGpioOutput(int identifier, float maxPower = 1023);
-    void pwmWrite(float power);
-    float power();
+    PwmGpioOutput(int identifier, float maxValue = 1023);
+    void pwmWrite(float value);
+    float value();
     ~PwmGpioOutput();
 protected:
-    int currentPower;
-    float maxPower;
+    int currentValue;
+    float maxValue;
 private:
-    void applyCurrentPower();
+    void applyCurrentValue();
 };
 
 #endif /* PwmGpioOutput_hpp */

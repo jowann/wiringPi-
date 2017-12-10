@@ -12,9 +12,15 @@ Mcp300XChannel::Mcp300XChannel(SpiChannel spiChannel, int channel): _channel(cha
 }
 
 
-int Mcp300XChannel::read(){
+
+
+float Mcp300XChannel::_read(){
     unsigned char buffer[3] = {1}; // start bit
     buffer[1] = (channelConfig+_channel) << 4;
     _spiChannel.dataRW(buffer, 3);
     return ( (buffer[1] & 3 ) << 8 ) + buffer[2]; // get last 10 bits
+}
+
+float Mcp300XChannel::_maxValue(){
+    return __maxValue;
 }

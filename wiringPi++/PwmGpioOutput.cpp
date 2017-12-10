@@ -11,25 +11,25 @@
 #include <wiringPi.h>
 
 #define DEFAULT_GPIO_MAX 1023
-PwmGpioOutput::PwmGpioOutput(int identifier, float maxPower): Gpio(identifier), currentPower(0.0f), maxPower(maxPower){
+PwmGpioOutput::PwmGpioOutput(int identifier, float maxValue): Gpio(identifier), currentValue(0.0f), maxValue(maxValue){
     pinMode(_id,PWM_OUTPUT);
-    applyCurrentPower();
+    applyCurrentValue();
 }
 
-void PwmGpioOutput::pwmWrite(float power){
-    currentPower = power / maxPower * DEFAULT_GPIO_MAX;
-    applyCurrentPower();
+void PwmGpioOutput::pwmWrite(float value){
+    currentValue = value / maxValue * DEFAULT_GPIO_MAX;
+    applyCurrentValue();
 }
-float PwmGpioOutput::power(){
-    return currentPower;
+float PwmGpioOutput::value(){
+    return currentValue;
 }
 
-void PwmGpioOutput::applyCurrentPower(){
-    ::pwmWrite(_id, currentPower);
+void PwmGpioOutput::applyCurrentValue(){
+    ::pwmWrite(_id, currentValue);
 }
 PwmGpioOutput::~PwmGpioOutput(){
-    currentPower = 0.0f;
-    applyCurrentPower();
+    currentValue = 0.0f;
+    applyCurrentValue();
 }
 
 

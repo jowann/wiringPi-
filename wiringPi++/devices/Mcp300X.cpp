@@ -10,7 +10,7 @@
 
 
 
-Mcp300X::Mcp300X(SpiChannel &spiChannel, int nbChannels): _spiChannel(spiChannel){
+Mcp300X::Mcp300X(SpiChannel &spiChannel, unsigned int nbChannels): _spiChannel(spiChannel), _nbChannels(nbChannels){
     _channels = new Mcp300XChannel*[nbChannels];
     for (int i = 0; i<nbChannels; ++i){
         _channels[i] = 0;
@@ -18,6 +18,9 @@ Mcp300X::Mcp300X(SpiChannel &spiChannel, int nbChannels): _spiChannel(spiChannel
 }
 
 Mcp300X::~Mcp300X(){
+    for (int i = 0; i<_nbChannels; ++i){
+        delete _channels[i];
+    }
     delete [] _channels;
 }
 

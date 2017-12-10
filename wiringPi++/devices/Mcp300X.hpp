@@ -40,8 +40,9 @@ typedef enum Mcp3004Channel_enum{
 
 class Mcp300X: public Device{
 protected:
+    unsigned int _nbChannels;
     Mcp300XChannel **_channels;
-    Mcp300X(SpiChannel &spiChannel, int nbChannels);
+    Mcp300X(SpiChannel &spiChannel, unsigned int nbChannels);
     SpiChannel &_spiChannel;
     Mcp300XChannel &mcp300XChannel(int channel);
     virtual ~Mcp300X();
