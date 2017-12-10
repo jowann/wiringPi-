@@ -13,11 +13,12 @@
 #include "Gpio.hpp"
 #include "GpioValue.hpp"
 #include "GenGPIOMode.hpp"
+#include <mutex>
 
 class GpioOutput: public Gpio{
     
 private:
-    
+    std::mutex mutex;
     GpioValue _value;
 public:
     

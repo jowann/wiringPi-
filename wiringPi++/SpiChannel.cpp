@@ -18,7 +18,9 @@ SpiChannel::~SpiChannel(){
     
 }
 void SpiChannel::dataRW(unsigned char *buffer, unsigned int bufferSize){
+    mutex.lock();
     wiringPiSPIDataRW(_channelId, buffer, bufferSize);
+    mutex.unlock();
 }
 
 

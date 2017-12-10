@@ -12,6 +12,7 @@
 #include <wiringPi.h>
 #include "Gpio.hpp"
 #include "GpioValue.hpp"
+#include <mutex>
 
 typedef enum GpioInputReadingMode_enum{
     PullUp = PUD_UP,
@@ -20,7 +21,8 @@ typedef enum GpioInputReadingMode_enum{
 
 
 class GpioInput: public Gpio{
-    
+private:
+    std::mutex mutex;
 public:
     
     GpioInput(int identifier, GpioInputMode mode);

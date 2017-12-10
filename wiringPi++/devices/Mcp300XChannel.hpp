@@ -11,6 +11,7 @@
 
 #include "../SpiChannel.hpp"
 #include "../capabilities/AnalogReader.hpp"
+#include <mutex>
 
 typedef enum Mcp300XChannelConfig_enum{
     DIFF   = 0,
@@ -20,14 +21,16 @@ typedef enum Mcp300XChannelConfig_enum{
 
 class Mcp300XChannel:public AnalogReader{
     Mcp300XChannelConfig channelConfig = SINGLE;
+private:
+    std::mutex mutex;
 protected:
     int _channel;
-    SpiChannel _spiChannel;
+    SpiChannel &_spiChannel;
     float _read();
     const float __maxValue = 1023;
     float _maxValue();
 public:
-    Mcp300XChannel(SpiChannel spiChannel, int channel);
+    Mcp300XChannel(SpiChannel &spiChannel, int channel);
 
 };
     

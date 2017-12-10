@@ -10,6 +10,7 @@
 #define Mcp3008_hpp
 
 #include <stdio.h>
+#include <mutex>
 #include "../SpiChannel.hpp"
 #include "Device.hpp"
 #include "Mcp300XChannel.hpp"
@@ -46,6 +47,8 @@ protected:
     SpiChannel &_spiChannel;
     Mcp300XChannel &mcp300XChannel(int channel);
     virtual ~Mcp300X();
+private:
+    std::mutex mutex;
 };
 
 class Mcp3008: public Mcp300X{

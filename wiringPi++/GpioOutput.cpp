@@ -14,9 +14,11 @@ GpioOutput::GpioOutput(int identifier): Gpio(identifier){
 }
 
 void GpioOutput::digitalWrite(GpioValue value){
+    mutex.lock();
     _value = value;
     // call digitalWrite from global namespace (wiringPi C function)
     ::digitalWrite(_id,_value);
+    mutex.unlock();
 }
 
 GpioValue GpioOutput::value(){

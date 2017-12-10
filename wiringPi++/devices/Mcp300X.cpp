@@ -26,7 +26,11 @@ Mcp300X::~Mcp300X(){
 
 Mcp300XChannel &Mcp300X::mcp300XChannel(int channel){
     if (_channels[channel] == 0){
-        _channels[channel] = new Mcp300XChannel(_spiChannel, channel);
+        mutex.lock();
+        if (_channels[channel] == 0){
+            _channels[channel] = new Mcp300XChannel(_spiChannel, channel);
+        }
+        mutex.unlock();
     }
     return *_channels[channel];
 }

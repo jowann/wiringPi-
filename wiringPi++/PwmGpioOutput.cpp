@@ -17,8 +17,10 @@ PwmGpioOutput::PwmGpioOutput(int identifier, float maxValue): Gpio(identifier), 
 }
 
 void PwmGpioOutput::pwmWrite(float value){
+    mutex.lock();
     currentValue = value / maxValue * DEFAULT_GPIO_MAX;
     applyCurrentValue();
+    mutex.unlock();
 }
 float PwmGpioOutput::value(){
     return currentValue;

@@ -9,6 +9,7 @@
 #ifndef SpiChannel_hpp
 #define SpiChannel_hpp
 
+#include <mutex>
 
 #include "SpiChannelId.hpp"
 
@@ -19,6 +20,8 @@ public:
     ~SpiChannel();
 protected:
     SpiChannelId _channelId;
+private:
+    std::mutex mutex;
     
 };
 

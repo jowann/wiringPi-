@@ -9,6 +9,7 @@
 #ifndef PwmGpioOutput_hpp
 #define PwmGpioOutput_hpp
 
+#include <mutex>
 #include "Gpio.hpp"
 
 class PwmGpioOutput:public Gpio{
@@ -22,6 +23,7 @@ protected:
     float maxValue;
 private:
     void applyCurrentValue();
+    std::mutex mutex;
 };
 
 #endif /* PwmGpioOutput_hpp */

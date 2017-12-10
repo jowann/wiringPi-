@@ -5,9 +5,9 @@
 
 class Gpio{
 public:
-    virtual ~Gpio();
+    virtual ~Gpio(){};
 protected:
-    Gpio(int identifier);
+    Gpio(int identifier):_id(identifier){};
     int _id;
 };
 

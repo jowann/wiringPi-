@@ -15,7 +15,10 @@ GpioInput::GpioInput(int identifier, GpioInputMode mode):Gpio(identifier){
 }
 
 GpioValue GpioInput::digitalRead(){
-    return static_cast<GpioValue>(::digitalRead(_id));
+    mutex.lock();
+    GpioValue gpioValue = (GpioValue) ::digitalRead(_id);
+    mutex.unlock();
+    return static_cast<GpioValue>(gpioValue);
 }
 
 GpioInput::~GpioInput(){
