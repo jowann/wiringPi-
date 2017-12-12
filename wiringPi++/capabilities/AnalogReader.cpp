@@ -8,8 +8,9 @@
 
 #include "AnalogReader.hpp"
 
+AnalogReader::AnalogReader(float maxValue):maxValue(maxValue){}
 
-float AnalogReader::read(float maxValue){
+float AnalogReader::read(){
     return normalized(_read(), maxValue);
 }
 

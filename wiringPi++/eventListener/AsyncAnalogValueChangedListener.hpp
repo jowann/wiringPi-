@@ -11,7 +11,7 @@
 
 #include <AnalogValueChangedListener.hpp>
 #include <thread>
-
+/*
 class AsyncAnalogValueChangedListener{
 private:
     AnalogValueChangedListener listener;
@@ -21,8 +21,8 @@ public:
     AsyncAnalogValueChangedListener(AnalogReader &reader);
     void start();
     void stop();
-    std::function<void(float)> callback;
+    std::function<void(AnalogReader&, float)> callback;
     void onValueChanged(AnalogReader&, float);
 };
-
+*/
 #endif /* AsyncAnalogValueChangedListener_hpp */

@@ -12,16 +12,20 @@
 #include <AnalogReader.hpp>
 #include <thread>
 #include <mutex>
+#include "MessageBox.hpp"
 
+class EventListener;
 
 class AnalogValueChangedListener{
 private:
     float lastValue = -1;
-    AnalogReader &reader;
     std::mutex mutex;
+    void emitMessage(float value);
+    
 public:
-    AnalogValueChangedListener(AnalogReader &reader);
-    std::function<void(AnalogReader &, float)> callback;
-    void listen();
+    AnalogValueChangedListener();
+    std::function<void(float, AnalogReader&)> callback;
+    EventListener *eventListener;
+    void valueRead(float newValue);
 };
 #endif /* AnalogValueChangedListener_hpp */

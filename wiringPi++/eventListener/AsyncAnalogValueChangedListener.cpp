@@ -9,7 +9,7 @@
 #include "AsyncAnalogValueChangedListener.hpp"
 
 #include <wiringPi.h>
-
+/*
 AsyncAnalogValueChangedListener::AsyncAnalogValueChangedListener(AnalogReader &reader): listener(reader){
 }
 
@@ -35,4 +35,4 @@ void AsyncAnalogValueChangedListener::start(){
 void AsyncAnalogValueChangedListener::stop(){
     //listener.callback = false;
     athread.detach();
-}
+}*/

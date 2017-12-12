@@ -9,20 +9,32 @@
 #include "AnalogValueChangedListener.hpp"
 
 #include <wiringPi.h>
+#include "Queue.hpp"
+#include "EventListener.hpp"
 
-AnalogValueChangedListener::AnalogValueChangedListener(AnalogReader &reader): reader(reader){
-    
+AnalogValueChangedListener::AnalogValueChangedListener(){
+   
 }
 
 
-void AnalogValueChangedListener::listen(){
-    mutex.lock();
-    float newValue = reader.read();
-    if (newValue != lastValue && callback){
-        lastValue = newValue;
-        callback(reader, newValue);
+void AnalogValueChangedListener::valueRead(float newValue){
+    
+    if (newValue != lastValue){
+        mutex.lock();
+        if (newValue != lastValue){
+            lastValue = newValue;
+            emitMessage(newValue);
+
+        }
+        mutex.unlock();
     }
     
-    mutex.unlock();
+}
+    
+
+
+
+void AnalogValueChangedListener::emitMessage(float value){
+    eventListener->addMessage(value, callback);
     
 }
