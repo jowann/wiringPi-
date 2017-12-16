@@ -9,6 +9,7 @@
 #ifndef Queue_hpp
 #define Queue_hpp
 
+#include <thread>
 #include <mutex>
 #include <vector>
 #include "AbstractMessage.hpp"
@@ -19,33 +20,43 @@ class EventDispatcher;
 class EventListener;
 
 class Queue{
-private:
-    std::vector<EventListener *>eventListeners;
 protected:
-    Queue(){};
-    virtual void launch() = 0;
+    std::vector<EventListener *>eventListeners;
+    MessageBox messageBox;
+    int _delay;
+    std::function<void()> idle;
+    Queue(int delayInMs):_delay(delayInMs){};
+    virtual void start() = 0;
+    virtual void stop() = 0;
+    void loop();
+    virtual ~Queue(){};
 public:
     static MainQueue &main();
     void registerEventListener(EventListener *eventListener);
+    void addMessage(AbstractMessage *message);
+    void addMessage(std::function<void()> message);
 };
 
 class MainQueue:public Queue{
+protected:
+    MainQueue(int delayInMs):Queue(delayInMs){}
 public:
-    void launch();
-    MessageBox messageBox;
-    
+    void start();
     static MainQueue &instance();
+    void stop();
 private:
     static std::mutex mutex;
     static MainQueue *mainQueue;
-
-    
-    
-    
+    bool _finish = false;
 };
 
 class AsyncQueue:public Queue{
-    void launch();
+protected:
+    std::thread *thread;
+public:
+    AsyncQueue(int delayInMs):Queue(delayInMs), thread(0){}
+    void start();
+    void stop();
 };
 
 #endif /* Queue_hpp */

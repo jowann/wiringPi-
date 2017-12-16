@@ -23,4 +23,14 @@ protected:
     std::function<void(U, V&)> callback;
 };
 
+
+class VoidMessage:public AbstractMessage{
+public:
+    VoidMessage(std::function<void()> callback):callback(callback){};
+
+    void send(){callback();};
+protected:
+    std::function<void()> callback;
+};
+
 #endif /* Message_hpp */
