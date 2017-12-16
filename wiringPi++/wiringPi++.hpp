@@ -16,4 +16,5 @@
 #include "GpioOutput.hpp"
 #include "Gpio40Pins.hpp"
 #include "GpioInput.hpp"
+
 #endif /* wiringPi___hpp */

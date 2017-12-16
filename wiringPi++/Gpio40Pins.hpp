@@ -14,6 +14,7 @@
 #include "GpioInput.hpp"
 #include "PwmGpioOutput.hpp"
 #include "SpiChannel.hpp"
+#include "I2C.hpp"
 
 #define GPIO_PORT_COUNT 30
 #define SPI_CHANNEL_COUNT 2
@@ -28,6 +29,7 @@ private:
     
     Gpio40Pins& operator= (const Gpio40Pins&){}
     int _spiFileDescriptor[SPI_CHANNEL_COUNT];
+    I2C *_i2c = 0;
 public:
     static Gpio40Pins &Instance();
     static void deleteInstance();
@@ -35,6 +37,7 @@ public:
     GpioInput &gpioInput(BCM bcmNumber, GpioInputMode mode);
     PwmGpioOutput &pwmGpio18Output(float max = 1023);
     SpiChannel &spiChannel(SpiChannelId channelId);
+    I2C &i2c();
     ~Gpio40Pins();
     
     

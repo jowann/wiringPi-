@@ -12,7 +12,7 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 #include <unistd.h>
-
+#include <I2C.hpp>
 
 
 Gpio40Pins *Gpio40Pins::_instance;
@@ -67,6 +67,13 @@ SpiChannel &Gpio40Pins::spiChannel(SpiChannelId channelId){
     }
     
     return *(new SpiChannel(channelId));
+}
+
+I2C &Gpio40Pins::i2c(){
+    if (_i2c == 0){
+        _i2c = new I2C();
+    }
+    return *_i2c;
 }
 
 Gpio40Pins::~Gpio40Pins(){
