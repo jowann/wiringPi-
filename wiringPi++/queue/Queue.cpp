@@ -32,15 +32,21 @@ void Queue::registerEventListener(EventListener *eventListener){
     eventListeners.push_back(eventListener);
 }
 
+Queue::~Queue(){
+    
+}
+
 void Queue::loop(){
-    for (EventListener *eventListener: eventListeners){
-        eventListener->listen();
+    while (!_finish) {
+        for (EventListener *eventListener: eventListeners){
+            eventListener->listen();
+        }
+        messageBox.sendMessages();
+        if (idle){
+            idle();
+        }
+        delay(_delay);
     }
-    messageBox.sendMessages();
-    if (idle){
-        idle();
-    }
-    delay(_delay);
 }
 
 void Queue::addMessage(AbstractMessage *message){
@@ -51,9 +57,12 @@ void Queue::addMessage(std::function<void()> message){
 }
 
 void MainQueue::start(){
-    while (!_finish) {
-        loop();
-    }
+    _finish = false;
+    loop();
+    
+}
+MainQueue::~MainQueue(){
+    stop();
 }
 
 void MainQueue::stop(){
@@ -71,8 +80,13 @@ void AsyncQueue::stop(){
 }
 
 
+
 void AsyncQueue::start(){
     thread = new std::thread([this]() {
         loop();
     });
+}
+
+AsyncQueue::~AsyncQueue(){
+    stop();
 }

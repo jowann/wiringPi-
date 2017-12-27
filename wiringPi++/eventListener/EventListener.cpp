@@ -8,7 +8,7 @@
 
 #include "EventListener.hpp"
 
-EventListener::EventListener(AnalogReader &analogReader, Queue &queue, MessageBox &messageBox):analogReader(analogReader), messageBox(messageBox){
+EventListener::EventListener(AnalogReader &analogReader, Queue &queue, MainQueue &mainQueue):analogReader(analogReader), mainQueue(mainQueue){
     queue.registerEventListener(this);
 }
 
@@ -18,8 +18,8 @@ void EventListener::addListener(AnalogValueChangedListener *listener){
 }
 
 
-void EventListener::addMessage(float value, std::function<void(float,AnalogReader&)> callback){
-    messageBox.addMessage(new Message<float, AnalogReader>(value, analogReader, callback));
+void EventListener::postMessageOnMainThread(float value, std::function<void(float,AnalogReader&)> callback){
+    mainQueue.addMessage(new Message<float, AnalogReader>(value, analogReader, callback));
 }
 
 void EventListener::listen(){
@@ -29,6 +29,3 @@ void EventListener::listen(){
     }
 }
 
-void EventListener::dispatchMessages(){
-    messageBox.sendMessages();
-}

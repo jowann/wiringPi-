@@ -35,6 +35,6 @@ void AnalogValueChangedListener::valueRead(float newValue){
 
 
 void AnalogValueChangedListener::emitMessage(float value){
-    eventListener->addMessage(value, callback);
+    eventListener->postMessageOnMainThread(value, callback);
     
 }

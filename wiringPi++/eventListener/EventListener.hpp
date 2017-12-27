@@ -19,15 +19,13 @@
 class EventListener{
 private:
     AnalogReader &analogReader;
-    MessageBox &messageBox;
     std::vector<AnalogValueChangedListener *>listeners;
+    MainQueue &mainQueue;
 public:
     void listen();
-    EventListener(AnalogReader &analogReader, Queue &queue, MessageBox &messageBox);
+    EventListener(AnalogReader &analogReader, Queue &queue, MainQueue &mainQueue);
     void addListener(AnalogValueChangedListener *listener);
-    void addMessage(float value, std::function<void(float,AnalogReader&)> callback);
-    void dispatchMessages();
-    
+    void postMessageOnMainThread(float value, std::function<void(float,AnalogReader&)> callback);
 };
 
 #endif /* EventDispatcher_hpp */

@@ -24,13 +24,14 @@ protected:
     std::vector<EventListener *>eventListeners;
     MessageBox messageBox;
     int _delay;
-    std::function<void()> idle;
+    bool _finish = false;
     Queue(int delayInMs):_delay(delayInMs){};
     virtual void start() = 0;
     virtual void stop() = 0;
     void loop();
-    virtual ~Queue(){};
+    virtual ~Queue();
 public:
+    std::function<void()> idle;
     static MainQueue &main();
     void registerEventListener(EventListener *eventListener);
     void addMessage(AbstractMessage *message);
@@ -44,10 +45,10 @@ public:
     void start();
     static MainQueue &instance();
     void stop();
+    virtual ~MainQueue();
 private:
     static std::mutex mutex;
     static MainQueue *mainQueue;
-    bool _finish = false;
 };
 
 class AsyncQueue:public Queue{
@@ -57,6 +58,7 @@ public:
     AsyncQueue(int delayInMs):Queue(delayInMs), thread(0){}
     void start();
     void stop();
+    virtual ~AsyncQueue();
 };
 
 #endif /* Queue_hpp */
