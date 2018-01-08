@@ -1,5 +1,5 @@
 //
-//  EventDispatcher.hpp
+//  EventListener.hpp
 //  test
 //
 //  Created by johann Vandromme on 12/12/2017.
@@ -16,6 +16,7 @@
 #include <vector>
 #include <thread>
 
+
 class EventListener{
 private:
     AnalogReader &analogReader;
@@ -28,4 +29,4 @@ public:
     void postMessageOnMainThread(float value, std::function<void(float,AnalogReader&)> callback);
 };
 
-#endif /* EventDispatcher_hpp */
+#endif /* EventListener_hpp */

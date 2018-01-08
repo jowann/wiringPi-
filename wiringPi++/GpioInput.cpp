@@ -21,6 +21,8 @@ GpioValue GpioInput::digitalRead(){
     return static_cast<GpioValue>(gpioValue);
 }
 
+
+
 GpioInput::~GpioInput(){
     
 }

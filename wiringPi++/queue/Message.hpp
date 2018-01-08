@@ -13,9 +13,9 @@
 #include "AbstractMessage.hpp"
 
 template <class U, class V>
-class Message: public AbstractMessage{
+class MessageUV: public AbstractMessage{
 public:
-    Message(U value, V &sender, std::function<void(U, V&)> callback):value(value), sender(sender), callback(callback){};
+    MessageUV(U value, V &sender, std::function<void(U, V&)> callback):value(value), sender(sender), callback(callback){};
     void send(){callback(value, sender);};
 protected:
     U value;
@@ -31,6 +31,18 @@ public:
     void send(){callback();};
 protected:
     std::function<void()> callback;
+};
+
+template <typename T>
+class MessageT:public AbstractMessage{
+protected:
+    T value;
+public:
+    MessageT(std::function<void(T)> callback, T value):callback(callback), value(value){};
+    
+    void send(){callback(value);};
+protected:
+    std::function<void(T)> callback;
 };
 
 #endif /* Message_hpp */

@@ -1,5 +1,5 @@
 //
-//  EventDispatcher.cpp
+//  EventListener.cpp
 //  test
 //
 //  Created by johann Vandromme on 12/12/2017.
@@ -19,7 +19,7 @@ void EventListener::addListener(AnalogValueChangedListener *listener){
 
 
 void EventListener::postMessageOnMainThread(float value, std::function<void(float,AnalogReader&)> callback){
-    mainQueue.addMessage(new Message<float, AnalogReader>(value, analogReader, callback));
+    mainQueue.addMessage(new MessageUV<float, AnalogReader>(value, analogReader, callback));
 }
 
 void EventListener::listen(){

@@ -15,13 +15,15 @@
 #include "AbstractMessage.hpp"
 #include "MessageBox.hpp"
 
-class MainQueue;
 class EventDispatcher;
+class MainQueue;
 class EventListener;
 
 class Queue{
 protected:
+    // deprecated
     std::vector<EventListener *>eventListeners;
+    std::vector<EventDispatcher *>eventDispatchers;
     MessageBox messageBox;
     int _delay;
     bool _finish = false;
@@ -34,6 +36,7 @@ public:
     std::function<void()> idle;
     static MainQueue &main();
     void registerEventListener(EventListener *eventListener);
+    void registerDispatcher(EventDispatcher *eventDispatcher);
     void addMessage(AbstractMessage *message);
     void addMessage(std::function<void()> message);
 };

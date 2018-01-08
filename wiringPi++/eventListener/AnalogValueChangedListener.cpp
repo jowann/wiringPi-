@@ -11,15 +11,15 @@
 #include <wiringPi.h>
 #include "Queue.hpp"
 #include "EventListener.hpp"
-
-AnalogValueChangedListener::AnalogValueChangedListener(){
+#include <math.h>
+AnalogValueChangedListener::AnalogValueChangedListener(float delta = 1):_delta(delta){
    
 }
 
 
 void AnalogValueChangedListener::valueRead(float newValue){
     
-    if (newValue != lastValue){
+    if (abs(lastValue - newValue) > _delta){
         mutex.lock();
         if (newValue != lastValue){
             lastValue = newValue;

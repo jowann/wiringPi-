@@ -20,10 +20,11 @@ class AnalogValueChangedListener{
 private:
     float lastValue = -1;
     std::mutex mutex;
+    float _delta;
     void emitMessage(float value);
     
 public:
-    AnalogValueChangedListener();
+    AnalogValueChangedListener(float delta);
     std::function<void(float, AnalogReader&)> callback;
     EventListener *eventListener;
     void valueRead(float newValue);

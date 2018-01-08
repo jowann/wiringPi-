@@ -8,6 +8,7 @@
 
 #include "Queue.hpp"
 #include <EventListener.hpp>
+#include <EventDispatcher.hpp>
 #include <wiringPi.h>
 
 MainQueue *MainQueue::mainQueue = 0;
@@ -28,6 +29,11 @@ MainQueue &Queue::main(){
     return MainQueue::instance();
 }
 
+void Queue::registerDispatcher(EventDispatcher *eventDispatcher){
+    eventDispatchers.push_back(eventDispatcher);
+}
+
+
 void Queue::registerEventListener(EventListener *eventListener){
     eventListeners.push_back(eventListener);
 }
@@ -40,6 +46,9 @@ void Queue::loop(){
     while (!_finish) {
         for (EventListener *eventListener: eventListeners){
             eventListener->listen();
+        }
+        for (EventDispatcher *eventDispatcher : eventDispatchers){
+            eventDispatcher->readAndDispatch();
         }
         messageBox.sendMessages();
         if (idle){
