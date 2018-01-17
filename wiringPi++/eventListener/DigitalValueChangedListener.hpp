@@ -13,7 +13,9 @@
 #include <GpioValue.hpp>
 
 class DigitalValueChangedListener:public ValueChangedListenerT<GpioValue>{
-    
+public:
+    DigitalValueChangedListener(std::function<void(GpioValue)> callback, GpioValue initialValue = Low, Queue &queue = Queue::main()): ValueChangedListenerT<GpioValue>(callback, initialValue, queue){}
 };
+
 
 #endif /* DigitalValueChangedListener_hpp */

@@ -43,7 +43,7 @@ public:
 
 class MainQueue:public Queue{
 protected:
-    MainQueue(int delayInMs):Queue(delayInMs){}
+    MainQueue(int delayInMs = 0):Queue(delayInMs){}
 public:
     void start();
     static MainQueue &instance();
@@ -58,7 +58,7 @@ class AsyncQueue:public Queue{
 protected:
     std::thread *thread;
 public:
-    AsyncQueue(int delayInMs):Queue(delayInMs), thread(0){}
+    AsyncQueue(int delayInMs = 0):Queue(delayInMs), thread(0){}
     void start();
     void stop();
     virtual ~AsyncQueue();

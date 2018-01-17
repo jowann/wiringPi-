@@ -10,8 +10,9 @@
 #define ReaderT_hpp
 
 template <typename T>
-class Reader{
-    
+class ReaderT{
+public:
+    virtual T read() = 0;
 };
 
 #endif /* ReaderT_hpp */

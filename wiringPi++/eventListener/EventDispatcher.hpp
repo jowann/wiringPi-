@@ -14,4 +14,6 @@ public:
     virtual void readAndDispatch() = 0;
 };
 
+
+
 #endif /* EventDispatcher_hpp */

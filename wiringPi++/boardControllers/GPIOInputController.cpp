@@ -29,7 +29,5 @@ void GPIOInputController::readAndDispatch(){
 }
 
 GPIOInputController::~GPIOInputController(){
-    for (EventListenerT<GpioValue> *listener : listeners){
-        delete listener;
-    }
+    
 }

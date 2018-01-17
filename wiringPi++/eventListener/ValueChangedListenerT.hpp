@@ -13,7 +13,7 @@
 #include <Message.hpp>
 
 template <typename T>
-class ValueChangedListenerT: EventListenerT<T>{
+class ValueChangedListenerT: public EventListenerT<T>{
 protected:
     T oldValue;
     std::function<void(T)> callback;
@@ -24,10 +24,13 @@ public:
     
     
     AbstractMessage *valueRead(T value){
+        AbstractMessage *message = 0;
         if (value != oldValue){
-            return MessageT<T>(callback, value);
+            message = new MessageT<T>(callback, oldValue);
         }
         oldValue = value;
+        return message;
+        
     }
 };
 

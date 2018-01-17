@@ -13,14 +13,14 @@
 #include "Gpio.hpp"
 #include "GpioValue.hpp"
 #include <mutex>
-
+#include <ReaderT.hpp>
 typedef enum GpioInputReadingMode_enum{
     PullUp = PUD_UP,
     PullDown = PUD_DOWN
 }GpioInputMode;
 
 
-class GpioInput: public Gpio{
+class GpioInput: public Gpio, public ReaderT<GpioValue>{
 private:
     std::mutex mutex;
 public:
@@ -28,7 +28,7 @@ public:
     GpioInput(int identifier, GpioInputMode mode);
     
     GpioValue digitalRead();
-    
+    GpioValue read();
     ~GpioInput();
     
 };

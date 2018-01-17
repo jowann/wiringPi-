@@ -21,7 +21,8 @@ public:
     EventListenerT(Queue &queue = Queue::main()):queue(queue){}
     void valueRead(T value, Queue &onQueue){
         AbstractMessage *message = valueRead(value);
-        if (!message) return;
+        if (!message)
+            return;
         if (&onQueue == &queue){
             message->send();
             delete message;

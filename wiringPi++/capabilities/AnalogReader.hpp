@@ -9,7 +9,9 @@
 #ifndef AnalogReader_hpp
 #define AnalogReader_hpp
 
-class AnalogReader{
+#include <ReaderT.hpp>
+// todo : AnalogReader a supprimer : garder uniquement ReaderT
+class AnalogReader: public ReaderT<float>{
 public:
     AnalogReader(float maxValue = 1023);
     float read();
