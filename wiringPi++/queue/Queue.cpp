@@ -7,12 +7,12 @@
 //
 
 #include "Queue.hpp"
-#include <EventListener.hpp>
 #include <EventDispatcher.hpp>
 #include <wiringPi.h>
 
 MainQueue *MainQueue::mainQueue = 0;
 std::mutex MainQueue::mutex;
+std::map<std::thread::id, Queue*> Queue::_processingQueues;
 
 MainQueue &MainQueue::instance(){
     if (mainQueue == 0){
@@ -25,6 +25,15 @@ MainQueue &MainQueue::instance(){
     return *mainQueue;
 }
 
+MainQueue::MainQueue(int delayInMs):Queue(delayInMs), _id(std::this_thread::get_id()){
+    
+    
+}
+
+std::thread::id MainQueue::getId() const{
+    return _id;
+}
+
 MainQueue &Queue::main(){
     return MainQueue::instance();
 }
@@ -33,10 +42,10 @@ void Queue::registerDispatcher(EventDispatcher *eventDispatcher){
     eventDispatchers.push_back(eventDispatcher);
 }
 
-
-void Queue::registerEventListener(EventListener *eventListener){
-    eventListeners.push_back(eventListener);
+Queue &Queue::currentQueue(){
+    return *Queue::_processingQueues[Queue::currentThreadId()];
 }
+
 
 Queue::~Queue(){
     
@@ -44,9 +53,6 @@ Queue::~Queue(){
 
 void Queue::loop(){
     while (!_finish) {
-        for (EventListener *eventListener: eventListeners){
-            eventListener->listen();
-        }
         for (EventDispatcher *eventDispatcher : eventDispatchers){
             eventDispatcher->readAndDispatch();
         }
@@ -65,8 +71,13 @@ void Queue::addMessage(std::function<void()> message){
     messageBox.addMessage(new VoidMessage(message));
 }
 
+bool Queue::isCurrentQueue(){
+    return Queue::currentThreadId() == getId();
+}
+
 void MainQueue::start(){
     _finish = false;
+    _processingQueues[getId()] = this;
     loop();
     
 }
@@ -88,12 +99,16 @@ void AsyncQueue::stop(){
     thread = 0;
 }
 
+ std::thread::id AsyncQueue::getId() const{
+    return thread->get_id();
+}
 
 
 void AsyncQueue::start(){
     thread = new std::thread([this]() {
         loop();
     });
+    _processingQueues[getId()] = this;
 }
 
 AsyncQueue::~AsyncQueue(){

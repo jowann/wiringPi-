@@ -1,32 +1,19 @@
 //
-//  AnalogValueChangedListener.hpp
+//  AnalogValueCahngedListener2.hpp
 //  test
 //
-//  Created by johann Vandromme on 09/12/2017.
-//  Copyright © 2017 Ineat-conseil. All rights reserved.
+//  Created by johann Vandromme on 17/01/2018.
+//  Copyright © 2018 Ineat-conseil. All rights reserved.
 //
 
 #ifndef AnalogValueChangedListener_hpp
 #define AnalogValueChangedListener_hpp
 
-#include <AnalogReader.hpp>
-#include <thread>
-#include <mutex>
-#include "MessageBox.hpp"
+#include <ValueChangedListenerT.hpp>
 
-class EventListener;
-
-class AnalogValueChangedListener{
-private:
-    float lastValue = -1;
-    std::mutex mutex;
-    float _delta;
-    void emitMessage(float value);
-    
+class AnalogValueChangedListener:public ValueChangedListenerT<float>{
 public:
-    AnalogValueChangedListener(float delta);
-    std::function<void(float, AnalogReader&)> callback;
-    EventListener *eventListener;
-    void valueRead(float newValue);
+    AnalogValueChangedListener(std::function<void(float)> callback, float initialValue = 0, Queue &queue = Queue::main()): ValueChangedListenerT<float>(callback, initialValue, queue){}
 };
-#endif /* AnalogValueChangedListener_hpp */
+
+#endif /* AnalogValueCahngedListener2_hpp */

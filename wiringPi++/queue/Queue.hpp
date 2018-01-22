@@ -12,6 +12,7 @@
 #include <thread>
 #include <mutex>
 #include <vector>
+#include <map>
 #include "AbstractMessage.hpp"
 #include "MessageBox.hpp"
 
@@ -21,8 +22,8 @@ class EventListener;
 
 class Queue{
 protected:
-    // deprecated
-    std::vector<EventListener *>eventListeners;
+    static std::map<std::thread::id, Queue*> _processingQueues;
+    
     std::vector<EventDispatcher *>eventDispatchers;
     MessageBox messageBox;
     int _delay;
@@ -32,22 +33,30 @@ protected:
     virtual void stop() = 0;
     void loop();
     virtual ~Queue();
+    inline static std::thread::id currentThreadId(){
+        return std::this_thread::get_id();
+    }
 public:
+    virtual std::thread::id getId()const = 0 ;
     std::function<void()> idle;
     static MainQueue &main();
-    void registerEventListener(EventListener *eventListener);
     void registerDispatcher(EventDispatcher *eventDispatcher);
     void addMessage(AbstractMessage *message);
     void addMessage(std::function<void()> message);
+    bool isCurrentQueue();
+    static Queue &currentQueue();
 };
 
 class MainQueue:public Queue{
+private:
+    std::thread::id _id;
 protected:
-    MainQueue(int delayInMs = 0):Queue(delayInMs){}
+    MainQueue(int delayInMs = 0);
 public:
     void start();
     static MainQueue &instance();
     void stop();
+    std::thread::id getId() const;
     virtual ~MainQueue();
 private:
     static std::mutex mutex;
@@ -61,7 +70,11 @@ public:
     AsyncQueue(int delayInMs = 0):Queue(delayInMs), thread(0){}
     void start();
     void stop();
+    std::thread::id getId() const;
     virtual ~AsyncQueue();
+    
 };
-
+inline bool operator==(const Queue& lhs, const Queue& rhs){
+    return lhs.getId() == rhs.getId();
+}
 #endif /* Queue_hpp */
