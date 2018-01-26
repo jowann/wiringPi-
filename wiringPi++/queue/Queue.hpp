@@ -37,6 +37,7 @@ protected:
         return std::this_thread::get_id();
     }
 public:
+    static std::mutex queueMutex;
     virtual std::thread::id getId()const = 0 ;
     std::function<void()> idle;
     static MainQueue &main();
@@ -59,7 +60,7 @@ public:
     std::thread::id getId() const;
     virtual ~MainQueue();
 private:
-    static std::mutex mutex;
+    
     static MainQueue *mainQueue;
 };
 

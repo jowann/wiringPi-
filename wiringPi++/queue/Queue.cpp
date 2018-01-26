@@ -11,16 +11,16 @@
 #include <wiringPi.h>
 
 MainQueue *MainQueue::mainQueue = 0;
-std::mutex MainQueue::mutex;
+std::mutex Queue::queueMutex;
 std::map<std::thread::id, Queue*> Queue::_processingQueues;
 
 MainQueue &MainQueue::instance(){
     if (mainQueue == 0){
-        mutex.lock();
+        queueMutex.lock();
         if (mainQueue == 0){
             mainQueue = new MainQueue(0);
         }
-        mutex.unlock();
+        queueMutex.unlock();
     }
     return *mainQueue;
 }
@@ -77,7 +77,9 @@ bool Queue::isCurrentQueue(){
 
 void MainQueue::start(){
     _finish = false;
+    queueMutex.lock();
     _processingQueues[getId()] = this;
+    queueMutex.unlock();
     loop();
     
 }
@@ -108,7 +110,9 @@ void AsyncQueue::start(){
     thread = new std::thread([this]() {
         loop();
     });
+    queueMutex.lock();
     _processingQueues[getId()] = this;
+    queueMutex.unlock();
 }
 
 AsyncQueue::~AsyncQueue(){
