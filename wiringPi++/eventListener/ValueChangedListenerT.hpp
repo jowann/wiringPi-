@@ -10,8 +10,8 @@
 #define ValueChangedListenerT_hpp
 
 #include <EventListenerT.hpp>
-#include <Message.hpp>
-
+#include <AbstractMessage.hpp>
+#include <MessageT.hpp>
 template <typename T>
 class ValueChangedListenerT: public EventListenerT<T>{
 protected:

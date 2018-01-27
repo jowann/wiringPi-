@@ -22,7 +22,7 @@
 #include <signal.h>
 #include <wiringPiSPI.h>
 
-#include <Mcp3008.hpp>
+
 //#include <iostream>
 #include <Lcd1602Controller.hpp>
 #include <Queue.hpp>
@@ -34,6 +34,7 @@
 #include <AnalogValueChangedListener.hpp>
 #include <iostream>
 #include <wiringPi++.hpp>
+#include <Mcp3008.hpp>
 #define  ButtonPin   0
 
 

@@ -12,26 +12,7 @@
 #include <thread>
 #include "AbstractMessage.hpp"
 
-template <class U, class V>
-class MessageUV: public AbstractMessage{
-public:
-    MessageUV(U value, V &sender, std::function<void(U, V&)> callback):value(value), sender(sender), callback(callback){};
-    void send(){callback(value, sender);};
-protected:
-    U value;
-    V &sender;
-    std::function<void(U, V&)> callback;
-};
 
-
-class VoidMessage:public AbstractMessage{
-public:
-    VoidMessage(std::function<void()> callback):callback(callback){};
-
-    void send(){callback();};
-protected:
-    std::function<void()> callback;
-};
 
 template <typename T>
 class MessageT:public AbstractMessage{

@@ -11,7 +11,7 @@
 
 #include <vector>
 #include <mutex>
-#include "Message.hpp"
+#include "AbstractMessage.hpp"
 
 class MessageBox{
 private:

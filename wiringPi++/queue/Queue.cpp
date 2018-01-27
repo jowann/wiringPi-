@@ -9,7 +9,7 @@
 #include "Queue.hpp"
 #include <EventDispatcher.hpp>
 #include <wiringPi.h>
-
+#include <VoidMessage.hpp>
 MainQueue *MainQueue::mainQueue = 0;
 std::mutex Queue::queueMutex;
 std::map<std::thread::id, Queue*> Queue::_processingQueues;
