@@ -9,8 +9,7 @@
 #ifndef Mcp300XChannel_hpp
 #define Mcp300XChannel_hpp
 
-#include "../SpiChannel.hpp"
-#include "../capabilities/AnalogReader.hpp"
+#include <SpiChannel.hpp>
 #include <mutex>
 #include <ReaderT.hpp>
 
@@ -20,7 +19,7 @@ typedef enum Mcp300XChannelConfig_enum{
 }Mcp300XChannelConfig;
 
 
-class Mcp300XChannel: public AnalogReader{
+class Mcp300XChannel: public ReaderT<float>{
     Mcp300XChannelConfig channelConfig = SINGLE;
 protected:
     int _channel;
