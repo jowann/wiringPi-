@@ -17,7 +17,7 @@ Mcp300X::Mcp300X(SpiChannel &spiChannel, unsigned int nbChannels):_nbChannels(nb
 }
 
 Mcp300X::~Mcp300X(){
-    for (int i = 0; i<_nbChannels; ++i){
+    for (unsigned int i = 0; i<_nbChannels; ++i){
         delete _channels[i];
     }
     delete [] _channels;

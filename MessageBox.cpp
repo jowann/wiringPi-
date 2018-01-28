@@ -15,11 +15,14 @@ void MessageBox::addMessage(AbstractMessage *message){
     mutex.unlock();
 }
 void MessageBox::sendMessages(){
-    mutex.lock();
-    for (AbstractMessage *message : messages){
+    if (!messages.empty()){
+        mutex.lock();
+        AbstractMessage *message = messages.front();
+        messages.pop_front();
+        mutex.unlock();
+        
         message->send();
         delete message;
     }
-    messages.clear();
-    mutex.unlock();
+    
 }
