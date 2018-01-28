@@ -13,6 +13,7 @@ template <typename T>
 class ReaderT{
 public:
     virtual T read() = 0;
+    virtual ~ReaderT(){}
 };
 
 #endif /* ReaderT_hpp */

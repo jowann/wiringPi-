@@ -28,7 +28,7 @@ private:
     
     Gpio40Pins();
     
-    Gpio40Pins& operator= (const Gpio40Pins&){}
+    Gpio40Pins& operator= (const Gpio40Pins&){return *this;}
     int _spiFileDescriptor[SPI_CHANNEL_COUNT];
     I2C *_i2c = 0;
 public:

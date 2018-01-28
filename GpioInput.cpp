@@ -14,13 +14,7 @@ GpioInput::GpioInput(int identifier, GpioInputMode mode):Gpio(identifier){
     pullUpDnControl(identifier, mode);
 }
 
-// TO DELETE
-GpioValue GpioInput::digitalRead(){
-    mutex.lock();
-    GpioValue gpioValue = (GpioValue) ::digitalRead(_id);
-    mutex.unlock();
-    return static_cast<GpioValue>(gpioValue);
-}
+
 
 GpioValue GpioInput::read(){
     mutex.lock();

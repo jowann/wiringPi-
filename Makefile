@@ -1,6 +1,6 @@
 # Declaration of variables
 CC = g++
-CC_FLAGS = -w
+CC_FLAGS = -Wall
 INCPATH=-I.
 # File names
 EXEC = run

@@ -30,6 +30,7 @@ public:
             queue.addMessage(message);
         }
     }
+    virtual ~EventListenerT(){}
 };
 
 #endif /* EventListenerV2_hpp */

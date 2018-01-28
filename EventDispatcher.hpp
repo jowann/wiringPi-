@@ -12,6 +12,7 @@
 class EventDispatcher{
 public:
     virtual void readAndDispatch() = 0;
+    virtual ~EventDispatcher(){}
 };
 
 

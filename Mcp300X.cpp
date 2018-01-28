@@ -9,9 +9,9 @@
 #include "Mcp300X.hpp"
 
 
-Mcp300X::Mcp300X(SpiChannel &spiChannel, unsigned int nbChannels): _spiChannel(spiChannel), _nbChannels(nbChannels){
+Mcp300X::Mcp300X(SpiChannel &spiChannel, unsigned int nbChannels):_nbChannels(nbChannels),  _spiChannel(spiChannel){
     _channels = new Mcp300XChannel*[nbChannels];
-    for (int i = 0; i<nbChannels; ++i){
+    for (unsigned int i = 0; i<nbChannels; ++i){
         _channels[i] = 0;
     }
 }

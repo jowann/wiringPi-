@@ -19,7 +19,7 @@ class MessageT:public AbstractMessage{
 protected:
     T value;
 public:
-    MessageT(std::function<void(T)> callback, T value):callback(callback), value(value){};
+    MessageT(std::function<void(T)> callback, T value):value(value), callback(callback){};
     
     void send(){callback(value);};
 protected:

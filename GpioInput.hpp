@@ -27,7 +27,6 @@ public:
     
     GpioInput(int identifier, GpioInputMode mode);
     
-    GpioValue digitalRead();
     GpioValue read();
     ~GpioInput();
     
