@@ -15,6 +15,7 @@
 class AnalogValueChangedListener:public ValueChangedListenerT<float>{
 public:
     AnalogValueChangedListener(std::function<void(float)> callback, float initialValue = 0, Queue &queue = Queue::main()): ValueChangedListenerT<float>(callback, initialValue, queue){}
+    ~AnalogValueChangedListener(){}
 };
 
 #endif /* AnalogValueCahngedListener2_hpp */

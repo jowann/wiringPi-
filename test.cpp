@@ -28,6 +28,7 @@
 #include "Queue.hpp"
 #include "GPIOInputController.hpp"
 #include <wiringPiI2C.h>
+#include "WorthyValueChangedListener.hpp"
 #include "DigitalValueChangedListener.hpp"
 #include "SpiChannelController.hpp"
 #include "Mcp300XChannelController.hpp"
@@ -77,7 +78,7 @@ int main(int argc, char **argv){
     //GpioOutput gpIO17 =  GpioOutput(GPIO17);
     //pinMode(GPIO17,OUTPUT);
     
-    AsyncQueue spiQueue(5000);
+    AsyncQueue spiQueue(5);
     Gpio40Pins &board = Gpio40Pins::Instance();
     SpiChannel &channel = board.spiChannel(Channel0);
     SpiChannelController spicontroller(Channel0, board, spiQueue);
@@ -86,10 +87,10 @@ int main(int argc, char **argv){
     Mcp300XChannelController mcpChannelController(channel1,spiQueue);
     
     
-    AnalogValueChangedListener *avcl = new AnalogValueChangedListener([&spiQueue](float newValue) {
+    WorthyValueChangedListener *avcl = new WorthyValueChangedListener([&spiQueue](float newValue) {
         
         printf("\n\n- %f %d - \n\n", newValue, spiQueue.getId() == std::this_thread::get_id());
-    });
+    }, 20.0);
     mcpChannelController.addEventListerner(avcl);
     
     

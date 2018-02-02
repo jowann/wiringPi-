@@ -23,15 +23,15 @@ public:
     }
     
     
-    AbstractMessage *valueRead(T value){
+    virtual AbstractMessage *valueRead(T value){
         AbstractMessage *message = 0;
         if (value != oldValue){
             message = new MessageT<T>(callback, oldValue);
         }
         oldValue = value;
         return message;
-        
     }
+    virtual ~ValueChangedListenerT(){}
 };
 
 #endif /* ValueChangedListenerT_hpp */
